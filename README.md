@@ -1,5 +1,7 @@
 ### Hi there 👋
 
+个人编程学习练习用
+
 <!--
 **RikiFelt/RikiFelt** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 

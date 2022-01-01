@@ -1,0 +1,9 @@
+UA监测
+UA伪装 ：headers
+url
+发起请求
+    -get请求,post请求
+        - 查询字符串参数params
+        - 表单数据data
+请求响应类型 txet(字符串), json(对象), content(二进制，例如图片)
+数据持久化 fp.write, json.dump
