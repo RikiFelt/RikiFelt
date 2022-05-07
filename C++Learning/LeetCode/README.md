@@ -1,0 +1,26 @@
+### Hi there 👋
+
+个人编程学习练习用 --- LeetCode刷题
+
+
+地址：
+https://leetcode-cn.com/
+
+所有的.cpp;.h文件均用UTF-8 BOM格式保存。
+
+点击LeetCode\LeetCode.sln打开工程
+
+<!--
+**RikiFelt/RikiFelt** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+
+Here are some ideas to get you started:
+
+- 🔭 I’m currently working on ...
+- 🌱 I’m currently learning ...
+- 👯 I’m looking to collaborate on ...
+- 🤔 I’m looking for help with ...
+- 💬 Ask me about ...
+- 📫 How to reach me: ...
+- 😄 Pronouns: ...
+- ⚡ Fun fact: ...
+-->
