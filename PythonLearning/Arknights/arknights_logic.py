@@ -15,6 +15,7 @@ class ArkLogic:
     def getGameState(self):
         return self.arkState.getGameState()
 
+    # 事前检查
     def precheck(self):
         if not self.isValid():
             return False
@@ -24,6 +25,7 @@ class ArkLogic:
             return False
         return True
 
+    # 开启代理指挥
     def enableAgent(self):
         if self.getGameState() == State.Action:
             # 常规图，查看右上角是否有星星，右下角开始行动是否有理智图标
@@ -49,6 +51,7 @@ class ArkLogic:
                                   self.arkImg.iconAgentLock_SN,
                                   self.arkImg.iconAgentOff_SN)
 
+    # 开启代理指挥
     def __enableAgent(self, iconCross, iconAgentLock, iconAgentOff):
         count = 0
         while True:
@@ -73,6 +76,7 @@ class ArkLogic:
                         print(f"尝试{count}次开启代理指挥失败，脚本关闭")
                         return False
 
+    # 关卡界面，点击开始行动
     def actionStart(self):
         print("关卡界面")
         state = State.Action
@@ -90,54 +94,84 @@ class ArkLogic:
             state = State.Error
         return state
 
+    # 编队界面，点击开始行动
     def prepareStart(self):
         print("编队界面")
         state = State.Prepare
-        btm = ArkUtil.getImageLocation(
-            self.arkImg.iconPrepare,
-            self.arkWin.RoBRegion)
-        if btm is None:
+        if not ArkUtil.findAndClick(self.arkImg.iconPrepare,
+                                    self.arkWin.RoBRegion,
+                                    sleep=2):
             state = State.Error
             print("未找到'开始行动'，请查看游戏分辨率是否正常")
-        else:
-            ArkUtil.click(btm, sleep=1)
         return state
 
+    # 代理指挥中
     def operation(self):
         print(f'代理指挥中：{time.ctime()}')
         time.sleep(10.0)
         return State.Operation
 
+    # 代理指挥结束
     def operationEnd(self):
         print("结算界面")
         ArkUtil.click(self.arkWin.endClickRegion, sleep=2)
         return State.End
 
+    # 升级界面
     def level_up(self):
         print("升级啦!!!")
         ArkUtil.click(self.arkWin.endClickRegion, sleep=2)
 
+    # 补充理智界面
     def noSanity(self):
         state = State.NoSanity
         print("没有理智")
-        if UseSanity:
-            btm_Y = ArkUtil.getImageLocation(
-                self.arkImg.iconY, self.arkWin.RoBRegion)
-            if btm_Y is None:
-                state = State.Error
-                print("无法使用理智药")
+        if UseSanity and UseStone:
+            # 使用理智药，源石恢复理智
+            if ArkUtil.findImage(self.arkImg.iconClearSelect, self.arkWin.RoBRegion):
+                state = self.__noSanity_clickY("理智药")
+            elif ArkUtil.findImage(self.arkImg.iconStone, self.arkWin.RoTRegion):
+                # todo 没有源石的时候图标会怎么样，有待测试
+                state = self.__noSanity_clickY("源石")
             else:
-                print("使用理智药,代理继续")
-                ArkUtil.click(btm_Y, sleep=2)
+                state = self.__noSanity_clickX("理智药或源石")
+        elif UseSanity and not UseStone:
+            # 只使用理智药恢复理智
+            if ArkUtil.findImage(self.arkImg.iconClearSelect, self.arkWin.RoBRegion):
+                state = self.__noSanity_clickY("理智药")
+            else:
+                state = self.__noSanity_clickX("理智药")
+        elif not UseSanity and UseStone:
+            # 只使用源石恢复理智，一般不存在这种状况
+            # todo 没有源石的时候图标会怎么样，有待测试
+            if ArkUtil.findImage(self.arkImg.iconStone, self.arkWin.RoTRegion):
+                state = self.__noSanity_clickY("源石")
+            else:
+                state = self.__noSanity_clickX("源石")
         else:
-            state = State.Error
-            print('不使用理智药，代理结束')
-            btm_X = ArkUtil.getImageLocation(
-                self.arkImg.iconX, self.arkWin.RoBRegion)
-            if btm_X is not None:
-                ArkUtil.click(btm_X, sleep=2)
+            # 不恢复理智
+            state = self.__noSanity_clickX()
         return state
 
+    # 补充理智界面，点击X按钮
+    def __noSanity_clickX(self, use_item=""):
+        if len(use_item) == 0:
+            print("不恢复理智，代理结束")
+        else:
+            print(f"无法使用{use_item}恢复理智，代理结束")
+        ArkUtil.findAndClick(self.arkImg.iconX, self.arkWin.RoBRegion, sleep=2)
+        return State.Error
+
+    # 补充理智界面，点击Y按钮
+    def __noSanity_clickY(self, use_item):
+        if ArkUtil.findAndClick(self.arkImg.iconY, self.arkWin.RoBRegion, sleep=2):
+            print(f"使用{use_item}恢复理智,代理继续")
+            return State.NoSanity
+        else:
+            print(f"无法使用{use_item}恢复理智，代理结束")
+            return State.Error
+
+    # 未知界面
     def unknown(self):
         print(f'未知界面，等待下一个画面中：{time.ctime()}')
         time.sleep(5)

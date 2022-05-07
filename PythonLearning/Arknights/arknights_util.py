@@ -8,7 +8,7 @@ class ArkUtil:
     @staticmethod
     def click(region, sleep=0, recovery=True, msg=False):
         if region is None or region == zeroRegion:
-            return
+            return False
 
         current_mouse_x, current_mouse_y = pyautogui.position()
         move_point_x = region[0] + region[2] * random.random()
@@ -21,6 +21,7 @@ class ArkUtil:
         if msg:
             print(f'点击:{move_point}')
         time.sleep(sleep + random.random())
+        return True
 
     @staticmethod
     def getImageLocation(img, find_region=zeroRegion):
@@ -30,6 +31,14 @@ class ArkUtil:
             btm = pyautogui.locateOnScreen(
                 img, region=find_region, grayscale=True, confidence=0.9)
         return btm
+
+    @staticmethod
+    def findAndClick(img, find_region=zeroRegion, sleep=0, recovery=True, msg=False):
+        btm = ArkUtil.getImageLocation(img, find_region)
+        if btm is None:
+            return False
+        else:
+            return ArkUtil.click(btm, sleep=sleep, recovery=recovery, msg=msg)
 
     @staticmethod
     def findImage(img, find_region=zeroRegion):

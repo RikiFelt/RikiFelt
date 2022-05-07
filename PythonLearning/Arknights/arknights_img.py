@@ -8,56 +8,58 @@ class ArkImg:
     def __init__(self, folder):
         self.folder = folder
         self.images = {}
-        self.valid = self.__LoadImage()
+        self.valid = self.__loadImage()
 
     def isValid(self):
         return self.valid
 
-    def __LoadImage(self):
+    def __loadImage(self):
         if not os.path.exists(self.folder):
             print(f'文件夹{self.folder}不存在!')
             return False
         try:
             # 关卡界面-开始演习打叉，右上角星星，右下角开始行动下面的理智，右上角理智，代理开关，代理锁
-            self.iconCross = self.__OpenImage('iconCross')
-            self.iconStar = self.__OpenImage('iconStar')
-            self.iconSanity = self.__OpenImage('iconSanity')
-            self.iconSanityRoT = self.__OpenImage('iconSanityRoT')
-            self.iconAgentOff = self.__OpenImage('iconAgentOff')
-            self.iconAgentLock = self.__OpenImage('iconAgentLock')
+            self.iconCross = self.__openImage('iconCross')
+            self.iconStar = self.__openImage('iconStar')
+            self.iconSanity = self.__openImage('iconSanity')
+            self.iconSanityRoT = self.__openImage('iconSanityRoT')
+            self.iconAgentOff = self.__openImage('iconAgentOff')
+            self.iconAgentLock = self.__openImage('iconAgentLock')
 
             # 编队界面-右上角删除编队,右下角开始行动
-            self.iconBin = self.__OpenImage('iconBin')
-            self.iconPrepare = self.__OpenImage('iconPrepare')
+            self.iconBin = self.__openImage('iconBin')
+            self.iconPrepare = self.__openImage('iconPrepare')
 
             # 战斗界面-左上角的齿轮图标
-            self.iconGear = self.__OpenImage('iconGear')
+            self.iconGear = self.__openImage('iconGear')
 
             # 补充理智界面-左边理智图标，勾叉图标
-            self.iconNoSanity = self.__OpenImage('iconNoSanity')
-            self.iconX = self.__OpenImage('iconX')
-            self.iconY = self.__OpenImage('iconY')
+            self.iconNoSanity = self.__openImage('iconNoSanity')
+            self.iconClearSelect = self.__openImage('iconClearSelect')
+            self.iconStone = self.__openImage('iconStone')
+            self.iconX = self.__openImage('iconX')
+            self.iconY = self.__openImage('iconY')
 
             # 升级界面-等级提升图标
-            self.iconLevelUp = self.__OpenImage('iconLevelUp')
+            self.iconLevelUp = self.__openImage('iconLevelUp')
 
             # 测试用，无实际作用
-            self.iconTest = self.__OpenImage('iconTest')
+            self.iconTest = self.__openImage('iconTest')
 
             # 愚人号活动对应
             old_folder = self.folder
             self.folder = old_folder + '/StultiferaNavis'
-            self.iconCross_SN = self.__OpenImage('iconCross_SN')
-            self.iconAgentOff_SN = self.__OpenImage('iconAgentOff_SN')
-            self.iconAgentLock_SN = self.__OpenImage('iconAgentLock_SN')
-            self.iconSanity_SN = self.__OpenImage('iconSanity_SN')
+            self.iconCross_SN = self.__openImage('iconCross_SN')
+            self.iconAgentOff_SN = self.__openImage('iconAgentOff_SN')
+            self.iconAgentLock_SN = self.__openImage('iconAgentLock_SN')
+            self.iconSanity_SN = self.__openImage('iconSanity_SN')
             self.folder = old_folder
 
         except NameError:
             return False
         return True
 
-    def __OpenImage(self, name):
+    def __openImage(self, name):
         file_path = f'{self.folder}/{name}.png'
         if os.path.exists(file_path):
             self.images[name] = Image.open(file_path)
