@@ -16,7 +16,7 @@ arkLogic = ArkLogic(arkWin, arkImg, arkState)
 arkFlow = ArkFlow(arkLogic)
 
 
-def Test():
+def test():
     print('测试开始')
     if arkLogic.isValid():
         # arkWin.display()
@@ -27,5 +27,5 @@ def Test():
 
 
 if __name__ == "__main__":
-    #Test()
-    arkFlow.Start(0)
+    #test()
+    arkFlow.start(0)

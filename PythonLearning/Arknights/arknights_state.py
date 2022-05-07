@@ -18,7 +18,7 @@ class ArkState:
             state = State.Prepare
         elif ArkUtil.findImage(self.arkImg.iconGear, self.arkWin.LoTRegion):
             state = State.Operation
-        elif ArkUtil.findImage(self.arkImg.iconStar, self.arkWin.LeftRegion):
+        elif ArkUtil.findImage(self.arkImg.iconStar, self.arkWin.leftRegion):
             state = State.End
         elif ArkUtil.findImage(self.arkImg.iconLevelUp, self.arkWin.gameRegion):
             state = State.LevelUp

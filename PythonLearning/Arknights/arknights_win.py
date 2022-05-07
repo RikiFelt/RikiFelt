@@ -4,21 +4,19 @@ from arknights_config import *
 
 
 class ArkWin:
-    LoTRegion = zeroRegion
-    LoBRegion = zeroRegion
-    RoTRegion = zeroRegion
-    RoBRegion = zeroRegion
-    LeftRegion = zeroRegion
-    RightRegion = zeroRegion
-    gameRegion = zeroRegion
-    endClickRegion = zeroRegion
-    hwnd = 0
-
     def __init__(self, caption, class_):
         self.hwnd = win32gui.FindWindow(class_, caption)
+        self.LoTRegion = zeroRegion
+        self.LoBRegion = zeroRegion
+        self.RoTRegion = zeroRegion
+        self.RoBRegion = zeroRegion
+        self.leftRegion = zeroRegion
+        self.rightRegion = zeroRegion
+        self.gameRegion = zeroRegion
+        self.endClickRegion = zeroRegion
         self.firstMsg = True
         if self.isValid():
-            self._getGameRegion()
+            self.__getGameRegion()
 
     def isValid(self):
         if self.hwnd is 0:
@@ -29,7 +27,7 @@ class ArkWin:
         else:
             return True
 
-    def _getGameRegion(self):
+    def __getGameRegion(self):
         if self.gameRegion is not zeroRegion:
             return self.gameRegion
 
@@ -43,10 +41,10 @@ class ArkWin:
         length = right - left
         height = bottom - top
         self.gameRegion = (left, top, length, height)
-        self._division()
+        self.__division()
         return self.gameRegion
 
-    def _division(self):
+    def __division(self):
         left = self.gameRegion[0]
         top = self.gameRegion[1]
         length = self.gameRegion[2]
@@ -61,8 +59,8 @@ class ArkWin:
         self.LoBRegion = (left, mid_y, half_length, half_height)
         self.RoTRegion = (mid_x, top, half_length, half_height)
         self.RoBRegion = (mid_x, mid_y, half_length, half_height)
-        self.LeftRegion = (left, top, half_length, height)
-        self.RightRegion = (half_length, top, half_length, height)
+        self.leftRegion = (left, top, half_length, height)
+        self.rightRegion = (half_length, top, half_length, height)
         x = left + int(length * (8 / 10))
         y = top + int(height * (1 / 10))
         w = int(length * (1 / 10))
@@ -76,8 +74,9 @@ class ArkWin:
         print(f'LoBRegion:{self.LoBRegion}')
         print(f'RoTRegion:{self.RoTRegion}')
         print(f'RoBRegion:{self.RoBRegion}')
-        print(f'LeftRegion:{self.LeftRegion}')
-        print(f'RightRegion:{self.RightRegion}')
+        print(f'leftRegion:{self.leftRegion}')
+        print(f'rightRegion:{self.rightRegion}')
+        print(f'endClickRegion:{self.endClickRegion}')
 
     def getGameImg(self):
         return pyautogui.screenshot(region=self.gameRegion)
