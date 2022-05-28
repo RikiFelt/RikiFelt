@@ -65,7 +65,7 @@ namespace ChangeFolderIcon.Visitor
 
         public override bool Visit(string file)
         {
-            string exname = Path.GetExtension(file);
+            string exname = Path.GetExtension(file).ToLower();
             if(extension.Equals(exname))
             {
                 return visitor.Visit(file);
@@ -87,7 +87,7 @@ namespace ChangeFolderIcon.Visitor
 
         public override bool Visit(string file)
         {
-            string exname = Path.GetExtension(file);
+            string exname = Path.GetExtension(file).ToLower();
             foreach(string extension in extensions)
             {
                 if(extension.Equals(exname))

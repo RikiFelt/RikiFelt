@@ -11,7 +11,7 @@ namespace ChangeFolderIcon.Exe
         /// <param name="args">文件夹列表</param>
         static void Main(string[] args)
         {
-            if(args.Length == 0) return;
+            if (args.Length == 0) return;
 
             FolderManager folderManager = new FolderManager();
             folderManager.LoadFolders(args);

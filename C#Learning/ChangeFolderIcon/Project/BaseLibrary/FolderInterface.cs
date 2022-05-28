@@ -67,7 +67,7 @@ namespace ChangeFolderIcon.FolderInterface
             }
 
             // 检查图标文件是否正确
-            string exname = Path.GetExtension(iconPath);
+            string exname = Path.GetExtension(iconPath).ToLower();
             if(!exname.Equals(".exe") && !exname.Equals(".ico"))
             {
                 return false;
