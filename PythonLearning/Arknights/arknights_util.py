@@ -52,3 +52,17 @@ class ArkUtil:
             print(f'{name}:{btm}')
         else:
             print(f'找不到{name}')
+
+    @staticmethod
+    def getInputInt():
+        count = -1
+        while count < 0:
+            try:
+                count = int(input())
+            except BaseException:
+                count = -1
+            if count >= 0:
+                break
+            else:
+                print("请输入一个大于或等于0的整数")
+        return count

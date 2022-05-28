@@ -23,6 +23,9 @@ class ArkLogic:
         if state == State.Unknown or state == State.Error:
             print(f"当前游戏状态{state}不正，脚本关闭")
             return False
+        if not self.enableAgent():
+            print("开启代理指挥失败，脚本关闭")
+            return False
         return True
 
     # 开启代理指挥
@@ -80,18 +83,16 @@ class ArkLogic:
     def actionStart(self):
         print("关卡界面")
         state = State.Action
-        if self.enableAgent():
-            btm = ArkUtil.getImageLocation(self.arkImg.iconSanity, self.arkWin.RoBRegion)
-            if btm is None:
-                # 愚人号活动对应
-                btm = ArkUtil.getImageLocation(self.arkImg.iconSanity_SN, self.arkWin.RoBRegion)
-            if btm is None:
-                state = State.Error
-                print("未找到'开始行动'，请查看游戏分辨率是否正常")
-            else:
-                ArkUtil.click(btm, sleep=1)
-        else:
+        # 在右下角找"行动开始“下面的理智图标
+        btm = ArkUtil.getImageLocation(self.arkImg.iconSanity, self.arkWin.RoBRegion)
+        if btm is None:
+            # 愚人号活动对应
+            btm = ArkUtil.getImageLocation(self.arkImg.iconSanity_SN, self.arkWin.RoBRegion)
+        if btm is None:
             state = State.Error
+            print("未找到'开始行动'，请查看游戏分辨率是否正常")
+        else:
+            ArkUtil.click(btm, sleep=1)
         return state
 
     # 编队界面，点击开始行动

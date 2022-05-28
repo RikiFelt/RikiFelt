@@ -1,4 +1,5 @@
 from arknights_config import *
+from arknights_util import ArkUtil
 
 
 class ArkFlow:
@@ -17,11 +18,14 @@ class ArkFlow:
                 self.startAction(count)
             else:
                 # 实际用，通过控制台输入循环次数
-                self.startActionInput()
-                count = self.continueOperate()
+                print('请输入一个大于0的整数')
+                count = ArkUtil.getInputInt()
                 while count > 0:
                     self.startAction(count)
-                    count = self.continueOperate()
+                    print('是否继续执行脚本：')
+                    print('是：请输入一个大于0的整数')
+                    print('否：请输入0')
+                    count = ArkUtil.getInputInt()
         else:
             input()
         print('脚本结束')
@@ -37,35 +41,6 @@ class ArkFlow:
                 break
             print(f'第{self.total_count}次代理指挥结束')
         print("代理指挥结束")
-
-    def startActionInput(self):
-        count = 0
-        while True:
-            print('请输入一个大于0的整数')
-            try:
-                count = int(input())
-                if count > 0:
-                    break
-            except BaseException:
-                count = 0
-        self.startAction(count)
-
-    @staticmethod
-    def continueOperate():
-        count = 0
-        while True:
-            print('是否继续执行脚本：')
-            print('是：请输入一个大于0的整数')
-            print('否：请输入0')
-            try:
-                count = int(input())
-                if count > 0:
-                    break
-                elif count == 0:
-                    break
-            except BaseException:
-                count = 0
-        return count
 
     def actionLoop(self):
         end_loop = False
