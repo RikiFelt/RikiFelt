@@ -7,7 +7,7 @@ from arknights_flow import ArkFlow
 
 #编译
 # 安装pyinstaller : pip install pyinstaller
-# 编译成exe文件 : pyinstaller --console --onefile arknights_main.py
+# 编译成exe文件 : pyinstaller --console --onefile --distpath .\ --name 明日方舟代理指挥脚本 --icon Icon\icon.ico arknights_main.py
 
 arkWin = ArkWin(FrameCaption, FrameClass)
 arkImg = ArkImg(IconFolder)

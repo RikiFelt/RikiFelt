@@ -23,9 +23,6 @@ class ArkLogic:
         if state == State.Unknown or state == State.Error:
             print(f"当前游戏状态{state}不正，脚本关闭")
             return False
-        if not self.enableAgent():
-            print("开启代理指挥失败，脚本关闭")
-            return False
         return True
 
     # 开启代理指挥
