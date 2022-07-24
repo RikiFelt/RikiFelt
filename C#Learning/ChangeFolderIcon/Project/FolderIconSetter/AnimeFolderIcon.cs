@@ -45,14 +45,15 @@ namespace ChangeFolderIcon.Anime
                 }
             }
 
+            // 把文件路径中特殊字符转换成空格，如斜杠 \ 和 反斜杠 / 
+            string iconName = AdjustIconName(animeTitle);
+            string iconFullName = folder + "\\" + iconName + ".ico";
+
             // 图标已存在时不更新
-            string iconFullName = folder + "\\" + animeTitle + ".ico";
             if(File.Exists(iconFullName)) return iconFullName;
 
-            if(!AcplayApi.DownloadAnimeIcon(folder, animeTitle))
-            {
-                return "";
-            }
+            // 下载动漫图标
+            if(!AcplayApi.DownloadAnimeIcon(animeTitle, iconFullName)) return "";
 
             return iconFullName;
         }
@@ -75,6 +76,19 @@ namespace ChangeFolderIcon.Anime
             string fileName = Path.GetFileNameWithoutExtension(videoFile);
             animeTitle = AcplayApi.GetAnimeTitle(fileName);
             return String.IsNullOrEmpty(animeTitle) ? false : true;
+        }
+    
+        /// <summary>
+        /// 替换动漫标题中的特殊字符，如斜杠和反斜杠
+        /// </summary>
+        /// <param name="animeTitle"></param>
+        /// <returns></returns>
+        private string AdjustIconName(string animeTitle)
+        {
+            string iconName = animeTitle;
+            iconName = iconName.Replace( '/', ' ' );
+            iconName = iconName.Replace( '\\', ' ');
+            return iconName;
         }
     }
 
@@ -202,12 +216,11 @@ namespace ChangeFolderIcon.Anime
             return info;
         }
         
-        public static bool DownloadAnimeIcon(string folder, string animeTitle)
+        public static bool DownloadAnimeIcon(string animeTitle, string iconFullName)
         {
             string imageUrl = GetImageUrl(animeTitle);
             Stream stream = GetStream(imageUrl, "GET", "");
             Image image = Image.FromStream(stream);
-            string iconFullName = folder + "\\" + animeTitle + ".ico";
             return ImageToIcon(image, iconFullName);
         }
 
@@ -225,9 +238,8 @@ namespace ChangeFolderIcon.Anime
             MemoryStream iconStream = new MemoryStream(); //存图标的内存流
             imagePng.Save(bitMapStream, ImageFormat.Png); //将原图读取为png格式并存入原图内存流
             BinaryWriter iconWriter = new BinaryWriter(iconStream); //新建二进制写入器以写入目标图标内存流
-            /**
-             * 下面是根据原图信息，进行文件头写入
-             */
+            
+            // 下面是根据原图信息，进行文件头写入
             iconWriter.Write((short)0);
             iconWriter.Write((short)1);
             iconWriter.Write((short)1);
@@ -246,9 +258,8 @@ namespace ChangeFolderIcon.Anime
             Stream iconFileStream = new FileStream(iconFullName, FileMode.Create);
             Icon icon = new Icon(iconStream);
             icon.Save(iconFileStream); //储存图像
-            /**
-             * 下面开始释放资源
-             */
+            
+            // 下面开始释放资源
             iconFileStream.Close();
             iconWriter.Close();
             iconStream.Close();
