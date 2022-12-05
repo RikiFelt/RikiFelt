@@ -19,14 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="base.cpp" />
+    <ClCompile Include="Base.cpp" />
     <ClCompile Include="Easy.cpp" />
+    <ClCompile Include="Hard.cpp" />
     <ClCompile Include="LeetCode.cpp" />
     <ClCompile Include="Normal.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="base.h" />
+    <ClInclude Include="Base.h" />
     <ClInclude Include="Easy.h" />
+    <ClInclude Include="Hard.h" />
     <ClInclude Include="Normal.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -53,7 +55,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">

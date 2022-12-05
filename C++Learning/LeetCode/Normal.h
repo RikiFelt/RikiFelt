@@ -1,7 +1,7 @@
 ﻿#ifndef __LeetCode_Normal_H__
 #define __LeetCode_Normal_H__
 
-#include "Easy.h"
+#include "Base.h"
 
 // 2. 两数相加
 ListNode* No2_addTwoNumbers( ListNode* l1, ListNode* l2 );
@@ -34,6 +34,8 @@ vector<string> No22_generateParenthesis_2( int n );
 // 45. 跳跃游戏 II
 int No45_jump( vector<int>& nums );
 int No45_jump_2( vector<int>& nums );
+
+bool No55_canJump( vector<int>& nums );
 
 // 62. 不同路径
 int No62_uniquePaths( int m, int n );

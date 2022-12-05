@@ -359,31 +359,46 @@ int No45_jump( vector<int>& nums )
   while( index < nums.size() - 1 )
   {
     step++;
-    int jumpIndex = JumpIndex( index, nums );
-    if( index == jumpIndex )
-    {
-      _ASSERT( 0 );
-      break;
-    }
-    index = jumpIndex;
+    int nextStep = index;
+    //index = JumpIndex( index, nums );
   }
   return step;
 }
 
 int No45_jump_2( vector<int>& nums )
 {
-  int maxPos = 0, nowPos = 0, end = 0, step = 0, n = nums.size() - 1;
-  while( end < n )
+  int nowPos, maxPos, endPos, step, lastPos;
+  nowPos = maxPos = endPos = step = 0;
+  lastPos = nums.size() - 1;
+  while( endPos < lastPos )
   {
     maxPos = max( maxPos, nums[nowPos] + nowPos );
-    if( nowPos == end )
+    if( nowPos == endPos )
     {
       step++;
-      end = maxPos;
+      endPos = maxPos;
     }
     nowPos++;
   }
   return step;
+}
+
+bool No55_canJump( vector<int>& nums )
+{
+  int rightMost = 0;
+  int length = nums.size();
+  for( int pos = 0; pos < length; pos++ )
+  {
+    if( pos <= rightMost )
+    {
+      rightMost = max( rightMost, pos + nums[pos] );
+      if( rightMost >= length - 1 )
+      {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 // 排序 C( m + n - 2, m ) 或 C( m + n - 2, n ) 试过了，容易超时

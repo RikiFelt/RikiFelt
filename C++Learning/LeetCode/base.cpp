@@ -1,4 +1,4 @@
-﻿#include "base.h"
+﻿#include "Base.h"
 
 // 组合数公式C( N, K )
 int Combination( int N, int k )

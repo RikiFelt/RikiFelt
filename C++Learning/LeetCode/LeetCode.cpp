@@ -1,4 +1,7 @@
-﻿#include "Normal.h"
+﻿#include "Base.h"
+#include "Easy.h"
+#include "Normal.h"
+#include "Hard.h"
 
 int main()
 {
@@ -70,7 +73,7 @@ int main()
   nums = { 1, 1,1,1 };
   nums = {1, 2,1,1,1};
   nums = {10,9,8,7,6,5,4,3,2,1,1,0};
-  nTest = No45_jump( nums );
+  //nTest = No45_jump( nums );
 
   nums = { 2, -1, 2 };
   nTest = No53_maxSubArray( nums );
@@ -94,6 +97,8 @@ int main()
   vector<int> prices = { 7,1,5,3,6,4,6 };
   nTest = No121_maxProfit( prices );
   nTest = No122_maxProfit( prices );
+
+  No205_isIsomorphic( "badc", "baba");
 
   auto strVecor =  No17_letterCombinations( "23" );
   PrintStrVector( strVecor );

@@ -1,4 +1,4 @@
-﻿#include "easy.h"
+﻿#include "Easy.h"
 
 vector<int>
 No1_twoSum(vector<int>& nums, int target)
@@ -356,6 +356,85 @@ No67_addBinary( string a, string b )
   return a;
 }
 
+int No69_mySqrt( int x )
+{
+      int left = 0, right = x, ans = -1;
+      while( left <= right )
+      {
+        int mid = left + ( right - left ) / 2;
+        if( (long long)mid * mid <= x )
+        {
+          ans = mid;
+          left = mid + 1;
+        }
+        else
+        {
+          right = mid - 1;
+        }
+      }
+      return ans;
+}
+
+int No70_climbStairs( int n )
+{
+      if( n <= 1 )return n;
+      vector<int> dp(n+1);
+      dp[1] = 1;
+      dp[2] = 2;
+      for( int pos = 3; pos <= n; pos++ )
+      {
+        dp[pos] = dp[pos - 1] + dp[pos - 2];
+      }
+      return dp[n];
+}
+
+ListNode* No83_deleteDuplicates( ListNode* head )
+{
+      if( !head ) return head;
+      ListNode* cur = head;
+      while(cur->next )
+      {
+        if( cur->val == cur->next->val )
+        {
+          cur->next = cur->next->next;
+        }
+        else
+        {
+          cur = cur->next;
+        }
+      }
+      return head;
+}
+
+void No88_merge( vector<int>& nums1, int m, vector<int>& nums2, int n )
+{
+      vector<int> ans;
+      int pos1 = 0;
+      int pos2 = 0;
+      while( pos1 < m || pos2 < n )
+      {
+        if( pos1 == m)
+        {
+          ans.emplace_back( nums2[pos2++] );
+        }
+        else if( pos2 == n)
+        {
+          ans.emplace_back( nums1[pos1++] );
+        }
+        else if( nums1[pos1] <= nums2[pos2] )
+        {
+          ans.emplace_back( nums1[pos1] );
+          pos1++;
+        }
+        else
+        {
+          ans.emplace_back( nums2[pos2] );
+          pos2++;
+        }
+      }
+      nums1 = ans;
+}
+
 static void
 Inorder( TreeNode* root, vector<int>& res )
 {
@@ -537,6 +616,27 @@ No122_maxProfit( vector<int>& prices )
   return maxProfit;
 }
 
+bool No125_isPalindrome( string s )
+{
+  string line;
+  for( const char& c : s )
+  {
+    if( isalnum( c ) )
+    {
+      line += tolower( c );
+    }
+  }
+  string reverse( line.rbegin(), line.rend() );
+  return line == reverse;
+}
+
+int No136_singleNumber( vector<int>& nums )
+{
+  int ans = 0;
+  for( int num : nums ) ans ^= num;
+  return ans;
+}
+
 bool
 No141_hasCycle( ListNode *head )
 {
@@ -550,6 +650,198 @@ No141_hasCycle( ListNode *head )
     if( faster == slower ) return true;
   }
   return false;
+}
+
+ListNode* No160_getIntersectionNode( ListNode* headA, ListNode* headB )
+{
+      if( !headA || !headB ) return nullptr;
+      ListNode* pA = headA;
+      ListNode* pB = headB;
+      while( pA != pB )
+      {
+        pA = pA ? pA->next : headB;
+        pB = pB ? pB->next : headA;
+      }
+      return pA;
+}
+
+string No168_convertToTitle( int columnNumber )
+{
+      string ans;
+      while( columnNumber-- )
+      {
+        ans += columnNumber % 26 + 'A';
+        columnNumber /= 26;
+      }
+      reverse( ans.begin(), ans.end() );
+      return ans;
+}
+
+int No169_majorityElement( vector<int>& nums )
+{
+  int maxCount = 0;
+  int maxNum = nums[0];
+  unordered_map<int, int> numMap;
+  for( int num : nums )
+  {
+    numMap[num]++;
+    if( numMap[num] > maxCount )
+    {
+      maxCount = numMap[num];
+      maxNum = num;
+    }
+  }
+  return maxNum;
+}
+
+uint32_t No190_reverseBits( uint32_t n )
+{
+      uint32_t i = 0, j = 32;
+      while( j-- )
+      {
+        // i左移一位并补上最后一位
+        i = ( i << 1 ) | ( n & 1 );
+        // n右移替换最后一位
+        n >>= 1;
+      }
+      return i;
+}
+
+int No191_hammingWeight( uint32_t n )
+{
+      int count = 0, i = 32;
+      while( i-- )
+      {
+        if( ( n & 1 ) == 1 ) count++;
+        n >>= 1;
+      }
+      return count;
+}
+
+bool No202_isHappy( int n )
+{
+      int next = 0;
+      unordered_set<int> set;
+      while( n != 1 && set.find( n ) == set.end() )
+      {
+        next = 0;
+        set.insert( n );
+        while( n > 0 )
+        {
+          int d = n % 10;
+          n /= 10;
+          next += d * d;
+        }
+        n = next;
+      }
+      return n == 1;
+}
+
+ListNode* No203_removeElements( ListNode* head, int val )
+{
+  ListNode* pA = head;
+  while( pA && pA->val == val )
+  {
+    pA = pA->next;
+    head = pA;
+  }
+  while( pA && pA->next )
+  {
+    if( pA->next->val == val )
+    {
+      pA->next = pA->next->next;
+    }
+    else
+    {
+      pA = pA->next;
+    }
+  }
+  return head;
+}
+
+bool No205_isIsomorphic( string s, string t )
+{
+  char s1, t1;
+  size_t size = s.size();
+  unordered_map<char, char> sMap;
+  unordered_map<char, char> tMap;
+  for( int pos = 0; pos < size; pos++ )
+  {
+    s1 = s[pos];
+    t1 = t[pos];
+    if( ( sMap.count( s1 ) && sMap[s1] != t1 ) ||
+        ( tMap.count( t1 ) && tMap[t1] != s1 ) )
+    {
+      return false;
+    }
+    sMap[s1] = t1;
+    tMap[t1] = s1;
+  }
+
+  return true;
+}
+
+ListNode* No206_reverseList( ListNode* head )
+{
+      ListNode* pre = nullptr;
+      ListNode* cur = head;
+      while( cur )
+      {
+        ListNode* next = cur->next;
+        cur->next = pre;
+        pre = cur;
+        cur = next;
+      }
+      return pre;
+}
+
+bool No217_containsDuplicate( vector<int>& nums )
+{
+  unordered_set<int> set;
+  for( int num : nums )
+  {
+    if( set.count( num ) ) return true;
+    else set.insert( num );
+  }
+  return false;
+}
+
+bool No219_containsNearbyDuplicate( vector<int>& nums, int k )
+{
+  unordered_map<int, int> dictionary;
+  int length = nums.size();
+  for( int i = 0; i < length; i++ )
+  {
+    int num = nums[i];
+    if( dictionary.count( num ) && i - dictionary[num] <= k )
+    {
+      return true;
+    }
+    dictionary[num] = i;
+  }
+  return false;
+}
+
+vector<string> No228_summaryRanges( vector<int>& nums )
+{
+        vector<string> ret;
+        int i = 0;
+        int n = nums.size();
+        while (i < n) {
+            int low = i;
+            i++;
+            while (i < n && nums[i] == nums[i - 1] + 1) {
+                i++;
+            }
+            int high = i - 1;
+            string temp = to_string(nums[low]);
+            if (low < high) {
+                temp.append("->");
+                temp.append(to_string(nums[high]));
+            }
+            ret.push_back(move(temp));
+        }
+        return ret;
 }
 
 
