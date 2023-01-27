@@ -5,7 +5,7 @@ int Combination( int N, int k )
 {
   long res = 1;
   for( int i = 1; i <= k; i++ )
-      res = res * ( N - k + i ) / i;
+    res = res * ( N - k + i ) / i;
   return (int)res;
 }
 

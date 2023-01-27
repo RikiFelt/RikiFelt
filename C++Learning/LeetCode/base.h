@@ -10,6 +10,7 @@
 #include <queue>           // 队列
 #include <algorithm>       // 一些数学函数，如max
 #include <iostream>        // 标准输入输出
+#include <sstream>         // 字符串操作
 #pragma warning(disable:4267) // 从“size_t”转换到“int”，可能丢失数据
 
 using namespace std;
