@@ -1,5 +1,7 @@
 #pragma once
 
+#include <wtypes.h> // LPCWSTR
+
 struct IDispatch;
 
 class ExcelOperator
@@ -11,13 +13,13 @@ public:
 public:
   void New();
 
-  void Open( const wchar_t* filename );
+  void Open( LPCWSTR filename );
 
   void Fill();
 
   void Save();
 
-  void SaveAs( const wchar_t* filename );
+  void SaveAs( LPCWSTR filename );
 
   void Quit();
 
@@ -27,19 +29,19 @@ private:
   void Uninitialize();
 
 private:
-  IDispatch* ExecuteGet( IDispatch* parent, const wchar_t* funcname );
+  IDispatch* ExecuteGet( IDispatch* parent, LPCWSTR func );
 
-  IDispatch* ExecuteGet( IDispatch* parent, const wchar_t* funcname, long vt_i4 );
+  IDispatch* ExecuteGet( IDispatch* parent, LPCWSTR func, long vt_i4 );
 
-  IDispatch* ExecuteGet( IDispatch* parent, const wchar_t* funcname, const wchar_t* vt_bstr );
+  IDispatch* ExecuteGet( IDispatch* parent, LPCWSTR func, LPCWSTR vt_bstr );
 
-  void ExecutePut( IDispatch* parent, const wchar_t* funcname, long vt_i4 );
+  void ExecutePut( IDispatch* parent, LPCWSTR func, long vt_i4 );
 
-  void ExecuteMethod( IDispatch* parent, const wchar_t* funcname );
+  void ExecuteMethod( IDispatch* parent, LPCWSTR func );
 
-  void ExecuteMethod( IDispatch* parent, const wchar_t* funcname, const wchar_t* vt_bstr );
+  void ExecuteMethod( IDispatch* parent, LPCWSTR func, LPCWSTR vt_bstr );
 
-  IDispatch* Execute( int method, IDispatch* parent, const wchar_t* funcname, long* vt_i4, const wchar_t* vt_bstr );
+  IDispatch* Execute( int method, IDispatch* parent, LPCWSTR func, long* vt_i4, LPCWSTR vt_bstr );
 
 private:
   IDispatch* pXlApp = nullptr;

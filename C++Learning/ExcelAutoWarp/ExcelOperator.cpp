@@ -86,7 +86,7 @@ void ExcelOperator::New()
   pXlSheet = ExecuteGet( pXlApp, L"ActiveSheet" );
 }
 
-void ExcelOperator::Open( const wchar_t* filename )
+void ExcelOperator::Open( LPCWSTR filename )
 {
   if( pXlApp ) return;
   else Initialize();
@@ -144,7 +144,7 @@ void ExcelOperator::Save()
   ExecutePut( pXlBook, L"Saved", 1 );
 }
 
-void ExcelOperator::SaveAs( const wchar_t* filename )
+void ExcelOperator::SaveAs( LPCWSTR filename )
 {
   ExecuteMethod( pXlSheet, L"SaveAs", filename );
 }
@@ -201,37 +201,37 @@ void ExcelOperator::Uninitialize()
   CoUninitialize();
 }
 
-IDispatch* ExcelOperator::ExecuteGet( IDispatch* parent, const wchar_t* funcname )
+IDispatch* ExcelOperator::ExecuteGet( IDispatch* parent, LPCWSTR func )
 {
-  return Execute( DISPATCH_PROPERTYGET, parent, funcname, nullptr, nullptr );
+  return Execute( DISPATCH_PROPERTYGET, parent, func, nullptr, nullptr );
 }
 
-IDispatch* ExcelOperator::ExecuteGet( IDispatch* parent, const wchar_t* funcname, long vt_i4 )
+IDispatch* ExcelOperator::ExecuteGet( IDispatch* parent, LPCWSTR func, long vt_i4 )
 {
-  return Execute( DISPATCH_PROPERTYGET, parent, funcname, &vt_i4, nullptr );
+  return Execute( DISPATCH_PROPERTYGET, parent, func, &vt_i4, nullptr );
 }
 
-IDispatch* ExcelOperator::ExecuteGet( IDispatch* parent, const wchar_t* funcname, const wchar_t* vt_bstr )
+IDispatch* ExcelOperator::ExecuteGet( IDispatch* parent, LPCWSTR func, LPCWSTR vt_bstr )
 {
-  return Execute( DISPATCH_PROPERTYGET, parent, funcname, nullptr, vt_bstr );
+  return Execute( DISPATCH_PROPERTYGET, parent, func, nullptr, vt_bstr );
 }
 
-void ExcelOperator::ExecutePut( IDispatch* parent, const wchar_t* funcname, long vt_i4 )
+void ExcelOperator::ExecutePut( IDispatch* parent, LPCWSTR func, long vt_i4 )
 {
-  Execute( DISPATCH_PROPERTYPUT, parent, funcname, &vt_i4, nullptr );
+  Execute( DISPATCH_PROPERTYPUT, parent, func, &vt_i4, nullptr );
 }
 
-void ExcelOperator::ExecuteMethod( IDispatch* parent, const wchar_t* funcname )
+void ExcelOperator::ExecuteMethod( IDispatch* parent, LPCWSTR func )
 {
-  Execute( DISPATCH_METHOD, parent, funcname, nullptr, nullptr );
+  Execute( DISPATCH_METHOD, parent, func, nullptr, nullptr );
 }
 
-void ExcelOperator::ExecuteMethod( IDispatch* parent, const wchar_t* funcname, const wchar_t* vt_bstr )
+void ExcelOperator::ExecuteMethod( IDispatch* parent, LPCWSTR func, LPCWSTR vt_bstr )
 {
-  Execute( DISPATCH_METHOD, parent, funcname, nullptr, vt_bstr );
+  Execute( DISPATCH_METHOD, parent, func, nullptr, vt_bstr );
 }
 
-IDispatch* ExcelOperator::Execute( int method, IDispatch* parent, const wchar_t* funcname, long* vt_i4, const wchar_t* vt_bstr )
+IDispatch* ExcelOperator::Execute( int method, IDispatch* parent, LPCWSTR func, long* vt_i4, LPCWSTR vt_bstr )
 {
   IDispatch* child = nullptr;
   if( parent )
@@ -239,26 +239,23 @@ IDispatch* ExcelOperator::Execute( int method, IDispatch* parent, const wchar_t*
     VARIANT result;
     VariantInit( &result );
 
-    WCHAR func[100];
-    wcscpy_s( func, funcname );
-
     if( vt_i4 )
     {
       VARIANT param;
       param.vt = VT_I4;
       param.lVal = *vt_i4;
-      AutoWrap( method, &result, parent, func, 1, param );
+      AutoWrap( method, &result, parent, (LPWSTR)func, 1, param );
     }
     else if( vt_bstr )
     {
       VARIANT param;
       param.vt = VT_BSTR;
       param.bstrVal = ::SysAllocString( vt_bstr );
-      AutoWrap( method, &result, parent, func, 1, param );
+      AutoWrap( method, &result, parent, (LPWSTR)func, 1, param );
     }
     else
     {
-      AutoWrap( method, &result, parent, func, 0 );
+      AutoWrap( method, &result, parent, (LPWSTR)func, 0 );
     }
 
     child = result.pdispVal;
